@@ -5,8 +5,15 @@
     <color name="black">#000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="dark_gray">#BCBCBC</color>
+    <color name="darker_gray">#AAAAAA</color>
 
     <color name="dark_yellow">#767F27</color>
     <color name="yellow">#ECFF4E</color>
+
+
+    <color name="light_blue">#33B5E5</color>
+    <color name="blue">#0099CC</color>
+
+    <color name="sea_green">#006666</color>
 
 </resources>
