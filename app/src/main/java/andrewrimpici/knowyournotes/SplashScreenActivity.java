@@ -11,8 +11,6 @@ import android.widget.ImageView;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private Thread splashThread;
-    public static NoteDeck trebleDeck;
-    public static NoteDeck bassDeck;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +25,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 ImageView splashImage = (ImageView)findViewById(R.id.imageview_splash_logo);
                 Animation fadeIn = AnimationUtils.loadAnimation(SplashScreenActivity.this, R.anim.fade_in);
                 splashImage.startAnimation(fadeIn);
-
-                initDecks();
 
                 try {
                     synchronized (this) {
@@ -58,10 +54,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    private void initDecks() {
-        trebleDeck = new NoteDeck(EnumClefType.TREBLE);
-        bassDeck = new NoteDeck(EnumClefType.BASS);
-    }
-
 }

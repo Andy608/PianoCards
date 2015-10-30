@@ -2,24 +2,41 @@ package andrewrimpici.knowyournotes;
 
 public class NoteCard {
 
-    private String letter;
-    private int octave;
+    private EnumLetterType letter;
+    private EnumOctaveType octave;
 
-    public NoteCard(EnumClefType t, String l, int o) {
+    private String imageResourceID;
+
+    private EnumClefType type;
+
+    public NoteCard(EnumClefType t, EnumLetterType l, EnumOctaveType o) {
+        type = t;
         letter = l;
         octave = o;
+        imageResourceID = t.getType() + "_" + l.getLetterType() + o.ordinal();
     }
 
-    public String getNoteLetter() {
+    public EnumLetterType getNoteLetter() {
         return letter;
     }
 
-    public int getOctave() {
+    public EnumOctaveType getOctave() {
         return octave;
+    }
+
+    public String getImageResourceID() {
+        return imageResourceID;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof NoteCard)) return false;
+        if (!letter.equals(((NoteCard)other).letter) || !(octave.equals(((NoteCard)other).octave))) return false;
+        else return true;
     }
 
     @Override
     public String toString() {
-        return letter + Integer.toString(octave);
+        return letter.getLetterType() + Integer.toString(octave.ordinal());
     }
 }

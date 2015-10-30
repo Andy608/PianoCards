@@ -38,8 +38,7 @@
         <ImageView
             android:id="@+id/imageview_note_card"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/treble_c4"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/textview_note_card_index"

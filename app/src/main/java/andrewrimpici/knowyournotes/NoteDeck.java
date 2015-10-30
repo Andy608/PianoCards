@@ -5,31 +5,103 @@ import java.util.List;
 
 public class NoteDeck {
 
-    private static final String[] LETTER_TYPES = {"C", "D", "E", "F", "G", "A", "B"};
-    private static final int[] OCTAVE_RANGE = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
-
     private List<NoteCard> deck;
-    private EnumClefType type;
+    private List<NoteCard> shuffledDeck;
 
-    public NoteDeck(EnumClefType t) {
-        type = t;
+    private int currentIndex;
 
+    public NoteDeck() {
         deck = new ArrayList<>();
+        shuffledDeck = new ArrayList<>();
+    }
 
-        for (int o : OCTAVE_RANGE) {
-            for (String l : LETTER_TYPES) {
+    public void makeCompleteDeck() {
+        for (int type = 0; type < EnumClefType.values().length; type++) {
+            for (int o = 0; o < EnumOctaveType.values().length; o++) {
+                for (int letterIndex = 0; letterIndex < EnumLetterType.values().length; letterIndex++) {
+                    String l = EnumLetterType.values()[letterIndex].getLetterType();
 
-                if (o == 0 && !(l.equals("A") || l.equals("B"))) {
-                    continue;
-                }
-                else if (o == 8 && !l.equals("C")) {
-                    continue;
-                }
-                else {
-                    deck.add(new NoteCard(type, l, o));
+                    if (o == 0 && !(l.equals("A") || l.equals("B"))) {
+                        continue;
+                    } else if (o == 8 && !l.equals("C")) {
+                        continue;
+                    } else {
+                        deck.add(new NoteCard(EnumClefType.values()[type], EnumLetterType.values()[letterIndex], EnumOctaveType.values()[o]));
+                    }
                 }
             }
         }
+    }
+
+    public void addCard(NoteCard card) {
+        if (deck.contains(card)) return;
+        else {
+            deck.add(card);
+            shuffledDeck.add(card);
+        }
+    }
+
+    public void removeCard(NoteCard card) {
+        for (int i = 0; i < deck.size(); i++) {
+            if (deck.get(i).equals(card)) {
+                deck.remove(i);
+                shuffledDeck.remove(i);
+                return;
+            }
+        }
+    }
+
+    public void shuffle() {
+
+        List<NoteCard> copy = new ArrayList<>(deck.size());
+
+        for (NoteCard c : deck) {
+            copy.add(c);
+        }
+
+        shuffledDeck.clear();
+
+        int i, rand;
+        for (i = 0 ; i < deck.size(); i++) {
+
+            rand = (int)(Math.random() * copy.size());
+
+            shuffledDeck.add(i, copy.get(rand));
+            copy.remove(rand);
+        }
+    }
+
+    public List<NoteCard> getShuffledDeck() {
+        return shuffledDeck;
+    }
+
+    public int getDeckSize() {
+        return deck.size();
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public boolean nextCard() {
+        if (currentIndex < (deck.size() - 1)) {
+            currentIndex++;
+            return true;
+        }
+        return false;
+    }
+
+    public NoteCard getCurrentCard(boolean fromShuffledDeck) {
+        if (fromShuffledDeck) {
+            return shuffledDeck.get(currentIndex);
+        }
+        else {
+            return deck.get(currentIndex);
+        }
+    }
+
+    public NoteCard getRandomCard() {
+        return deck.get((int)(Math.random() * deck.size()));
     }
 
     @Override

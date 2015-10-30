@@ -7,20 +7,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class PracticeActivity extends AppCompatActivity {
 
     private TextView textviewNoteStreak;
     private TextView textviewNoteCardIndex;
 
+    private ImageView imageViewNoteCard;
+
     private Button[] optionsButtons;
 
     private int noteStreak;
     private int correctButtonID;
 
-    private NoteDeck trebleDeck;
-    private NoteDeck bassDeck;
+    private NoteDeck basicDeck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +33,21 @@ public class PracticeActivity extends AppCompatActivity {
 
         textviewNoteStreak = (TextView)findViewById(R.id.textview_note_streak);
         textviewNoteCardIndex = (TextView)findViewById(R.id.textview_note_card_index);
+
+        imageViewNoteCard = (ImageView)findViewById(R.id.imageview_note_card);
         init();
     }
 
     private void init() {
-        correctButtonID = 1;
+        basicDeck = new NoteDeck();
 
-        trebleDeck = SplashScreenActivity.trebleDeck;
-        bassDeck = SplashScreenActivity.bassDeck;
+        for (int i = EnumLetterType.C.ordinal(); i <= EnumLetterType.G.ordinal(); i++)
+            basicDeck.addCard(new NoteCard(EnumClefType.TREBLE, EnumLetterType.values()[i], EnumOctaveType.FOUR));
 
-        Log.d("DERP: ", trebleDeck.toString());
-        Log.d("DERP: ", bassDeck.toString());
+        Log.d("DERP", basicDeck.toString());
 
-        textviewNoteStreak.setText(Integer.toString(noteStreak));
-        textviewNoteCardIndex.setText(noteStreak + "/10"); //textviewNoteCardIndex.setText("1/" + deck.getSize());
+        basicDeck.shuffle();
+
         initOptionsButtons();
     }
 
@@ -71,10 +76,49 @@ public class PracticeActivity extends AppCompatActivity {
                     }
 
                     //TODO: Go to the next card in the deck, and randomize the correctButtonID.
-                    textviewNoteStreak.setText(Integer.toString(noteStreak));
-                    textviewNoteCardIndex.setText(noteStreak + "/10"); //textviewNoteCardIndex.setText((deck.getNoteIndex() + 1) + "/" + deck.getSize());
+
+                    if (!basicDeck.nextCard()) {
+                        //TODO: GO TO A FINISH PRACTICE SCREEN INSTEAD OF BACK TO MAIN MENU!!
+                        finish();
+                    }
+
+                    updateGUI();
                 }
             });
+        }
+        updateGUI();
+    }
+
+    private void updateGUI() {
+        textviewNoteStreak.setText(Integer.toString(noteStreak));
+        textviewNoteCardIndex.setText((basicDeck.getCurrentIndex() + 1) + "/" + basicDeck.getDeckSize());
+        imageViewNoteCard.setImageResource(getResources().getIdentifier(basicDeck.getCurrentCard(true).getImageResourceID(), "mipmap", getPackageName()));
+
+        //TODO: Update gui buttons to pick a random letter and display it. Connect the buttonID to the correctButtonID.
+        //Randomly generate a new correctButtonID.
+        //Set the button with that ID to the correct text.
+        //Fill in the other buttons with random notes. (Preferably notes that are close in range to the real note).
+
+        randomizeOptionsButtons();
+    }
+
+    private void randomizeOptionsButtons() {
+
+        correctButtonID = (int)(Math.random() * optionsButtons.length);
+        optionsButtons[correctButtonID].setText(basicDeck.getCurrentCard(true).toString());
+
+        String[] optionsList = new String[4];
+        optionsList[correctButtonID] = optionsButtons[correctButtonID].getText().toString();
+
+        for (int i = 0; i < optionsButtons.length; i++) {
+
+            if (i == correctButtonID) continue;
+
+            //TODO: GENERATE RANDOM WITHOUT ANY DUPLICATES!!
+            NoteCard randomCard = randomCard = basicDeck.getRandomCard();
+
+            optionsList[i] = randomCard.toString();
+            optionsButtons[i].setText(randomCard.toString());
         }
     }
 
