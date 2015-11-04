@@ -3,13 +3,12 @@ package andrewrimpici.knowyournotes;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PracticeActivity extends AppCompatActivity {
@@ -41,8 +40,37 @@ public class PracticeActivity extends AppCompatActivity {
     private void init() {
         basicDeck = new NoteDeck();
 
-        for (int i = EnumLetterType.C.ordinal(); i <= EnumLetterType.G.ordinal(); i++)
+       for (int octave = EnumOctaveType.THREE.ordinal(); octave < EnumOctaveType.SIX.ordinal(); octave++) {
+            for (int letter = EnumLetterType.A.ordinal(); letter <= EnumLetterType.G.ordinal(); letter++) {
+
+                if (octave == EnumOctaveType.THREE.ordinal() && (letter != EnumLetterType.A.ordinal() && letter != EnumLetterType.B.ordinal())) {
+                    continue;
+                }
+                else {
+                    basicDeck.addCard(new NoteCard(EnumClefType.TREBLE, EnumLetterType.values()[letter], EnumOctaveType.values()[octave]));
+                }
+            }
+        }
+        basicDeck.addCard(new NoteCard(EnumClefType.TREBLE, EnumLetterType.C, EnumOctaveType.SIX));
+
+        for (int octave = EnumOctaveType.TWO.ordinal(); octave <= EnumOctaveType.FOUR.ordinal(); octave++) {
+            for (int letter = EnumLetterType.A.ordinal(); letter <= EnumLetterType.G.ordinal(); letter++) {
+
+                if (octave == EnumOctaveType.TWO.ordinal() && (letter == EnumLetterType.A.ordinal() || letter == EnumLetterType.B.ordinal())) {
+                    continue;
+                }
+                else if (octave == EnumOctaveType.FOUR.ordinal() && (letter > EnumLetterType.E.ordinal())) {
+                    continue;
+                }
+                else {
+                    basicDeck.addCard(new NoteCard(EnumClefType.BASS, EnumLetterType.values()[letter], EnumOctaveType.values()[octave]));
+                }
+            }
+        }
+
+        /*for (int i = EnumLetterType.C.ordinal(); i <= EnumLetterType.G.ordinal(); i++)
             basicDeck.addCard(new NoteCard(EnumClefType.TREBLE, EnumLetterType.values()[i], EnumOctaveType.FOUR));
+        */
 
         Log.d("DERP", basicDeck.toString());
 
@@ -92,7 +120,7 @@ public class PracticeActivity extends AppCompatActivity {
     private void updateGUI() {
         textviewNoteStreak.setText(Integer.toString(noteStreak));
         textviewNoteCardIndex.setText((basicDeck.getCurrentIndex() + 1) + "/" + basicDeck.getDeckSize());
-        imageViewNoteCard.setImageResource(getResources().getIdentifier(basicDeck.getCurrentCard(true).getImageResourceID(), "mipmap", getPackageName()));
+        imageViewNoteCard.setImageResource(getResources().getIdentifier(basicDeck.getCurrentCard(true).getImageResourceID(), "drawable", getPackageName()));
 
         //TODO: Update gui buttons to pick a random letter and display it. Connect the buttonID to the correctButtonID.
         //Randomly generate a new correctButtonID.
@@ -107,40 +135,27 @@ public class PracticeActivity extends AppCompatActivity {
         correctButtonID = (int)(Math.random() * optionsButtons.length);
         optionsButtons[correctButtonID].setText(basicDeck.getCurrentCard(true).toString());
 
-        String[] optionsList = new String[4];
-        optionsList[correctButtonID] = optionsButtons[correctButtonID].getText().toString();
+        List<NoteCard> copy = new ArrayList<>(basicDeck.getDeckSize() - 1);
+        for (int i = 0; i < basicDeck.getDeckSize(); i++) {
+            NoteCard c = basicDeck.getCard(i);
+
+            if (c.equals(basicDeck.getCurrentCard(true))) {
+                continue;
+            }
+            else {
+                copy.add(c);
+            }
+        }
 
         for (int i = 0; i < optionsButtons.length; i++) {
-
-            if (i == correctButtonID) continue;
-
-            //TODO: GENERATE RANDOM WITHOUT ANY DUPLICATES!!
-            NoteCard randomCard = randomCard = basicDeck.getRandomCard();
-
-            optionsList[i] = randomCard.toString();
-            optionsButtons[i].setText(randomCard.toString());
+            if (i == correctButtonID) {
+                continue;
+            }
+            else {
+                int rand = (int)(Math.random() * copy.size());
+                optionsButtons[i].setText(copy.get(rand).toString());
+                copy.remove(rand);
+            }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

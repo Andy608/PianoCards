@@ -2,13 +2,13 @@ package andrewrimpici.knowyournotes;
 
 public enum EnumLetterType {
 
+    A("a"),
+    B("b"),
     C("c"),
     D("d"),
     E("e"),
     F("f"),
-    G("g"),
-    A("a"),
-    B("b");
+    G("g");
 
     private String letterType;
     private EnumLetterType(String type) {

@@ -37,6 +37,6 @@ public class NoteCard {
 
     @Override
     public String toString() {
-        return letter.getLetterType() + Integer.toString(octave.ordinal());
+        return letter.getLetterType().toUpperCase() + Integer.toString(octave.ordinal());
     }
 }

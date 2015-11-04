@@ -14,105 +14,100 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp">
+        android:layout_margin="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Note Streak"
-        android:textSize="56sp"
+        android:textSize="56dp"
         android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/textview_note_streak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="52sp"/>
+        android:textSize="52dp"/>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:paddingTop="40dp">
 
         <ImageView
             android:id="@+id/imageview_note_card"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/textview_note_card_index"
-            android:layout_below="@+id/imageview_note_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="4/10"
             android:layout_centerHorizontal="true"
             android:textSize="24sp"
-            android:layout_marginTop="15dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/imageview_note_card"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="35dp" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20dp">
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:layout_alignParentBottom="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/button_practice_id_0"
+            android:src="@mipmap/normal_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/xhdpi_normal_button"
+            android:textSize="32dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"/>
 
-            <Button
-                android:id="@+id/button_practice_id_0"
-                android:src="@mipmap/normal_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/normal_button"
-                android:layout_margin="5dp"
-                android:textSize="32dp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/button_practice_id_1"
-                android:src="@mipmap/normal_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/normal_button"
-                android:layout_margin="5dp"
-                android:textSize="32dp"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/button_practice_id_1"
+            android:src="@mipmap/normal_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/xhdpi_normal_button"
+            android:textSize="32dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_margin="5dp"/>
 
-            <Button
-                android:id="@+id/button_practice_id_2"
-                android:src="@mipmap/normal_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/normal_button"
-                android:layout_margin="5dp"
-                android:textSize="32dp"
-                android:layout_weight="1"/>
+        <Button
+            android:id="@+id/button_practice_id_2"
+            android:src="@mipmap/normal_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/xhdpi_normal_button"
+            android:textSize="32dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_margin="5dp"/>
 
-            <Button
-                android:id="@+id/button_practice_id_3"
-                android:src="@mipmap/normal_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/normal_button"
-                android:layout_margin="5dp"
-                android:textSize="32dp"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/button_practice_id_3"
+            android:src="@mipmap/normal_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/xhdpi_normal_button"
+            android:textSize="32dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"/>
 
     </LinearLayout>
 

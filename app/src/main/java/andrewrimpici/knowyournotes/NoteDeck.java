@@ -1,5 +1,7 @@
 package andrewrimpici.knowyournotes;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,8 @@ public class NoteDeck {
     }
 
     public void makeCompleteDeck() {
-        for (int type = 0; type < EnumClefType.values().length; type++) {
+        //TODO: UPDATE FOR NEW ENUM
+        /*for (int type = 0; type < EnumClefType.values().length; type++) {
             for (int o = 0; o < EnumOctaveType.values().length; o++) {
                 for (int letterIndex = 0; letterIndex < EnumLetterType.values().length; letterIndex++) {
                     String l = EnumLetterType.values()[letterIndex].getLetterType();
@@ -30,7 +33,7 @@ public class NoteDeck {
                     }
                 }
             }
-        }
+        }*/
     }
 
     public void addCard(NoteCard card) {
@@ -97,6 +100,16 @@ public class NoteDeck {
         }
         else {
             return deck.get(currentIndex);
+        }
+    }
+
+    public NoteCard getCard(int index) {
+        if (index < 0 || index >= deck.size()) {
+            Log.d("NoteDeck.getCard(" + index + ")", "The index is not in the card range. Returning null.");
+            return null;
+        }
+        else {
+            return deck.get(index);
         }
     }
 
