@@ -1,14 +1,21 @@
-package andrewrimpici.knowyournotes;
+package andrewrimpici.knowyournotes.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class SplashScreenActivity extends AppCompatActivity {
+import andrewrimpici.knowyournotes.R;
+import andrewrimpici.knowyournotes.core.Color;
+
+public class SplashScreenActivity extends AbstractActivity {
+
+    //TODO: ADD IN GAME LOOP OBJECT HERE AND START IT. ADD ONPAUSE() AND ONRESUME() HERE AND CALL THE METHODS TO PAUSE AND START THE GAMELOOP.
+    //TODO: ADD THE ONPAUSE AND ONRESUME TO EVERY CLASS. (HOPEFULLY THATLL WORK).
+    //TODO: REDO HOW THE SPLASH SCREEN STAYS FOR 5 SECONDS USING THE NEW GAMELOOP OBJECT
+    //TODO: TEST!!!
 
     private Thread splashThread;
 
@@ -53,5 +60,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    public void updateColor(Color c) {
+
     }
 }

@@ -1,4 +1,4 @@
-package andrewrimpici.knowyournotes;
+package andrewrimpici.knowyournotes.util;
 
 public enum EnumClefType {
 

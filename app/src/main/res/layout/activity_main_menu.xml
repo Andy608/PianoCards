@@ -2,49 +2,52 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayout_mainmenu_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context=".MainMenuActivity"
-    android:background="@color/light_blue"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="15dp">
 
     <TextView
+        android:id="@+id/textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="56sp"
-        android:paddingBottom="40dp" />
+        android:paddingBottom="30dp" />
 
     <Button
         android:id="@+id/button_main_menu_to_practice_screen"
-        android:layout_width="wrap_content"
+        android:background="@drawable/xhdpi_normal_button"
+        android:padding="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Practice"
         android:textSize="36sp"
         android:textColor="@drawable/button_color"
-        android:layout_marginBottom="20dp"
-        android:background="@null"/>
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/button_main_menu_to_quiz_screen"
-        android:layout_width="wrap_content"
+        android:background="@drawable/xhdpi_normal_button"
+        android:padding="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Quiz"
         android:textSize="36sp"
         android:textColor="@drawable/button_color"
-        android:layout_marginBottom="20dp"
-        android:background="@null"/>
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:id="@+id/button_main_menu_to_settings_screen"
-        android:layout_width="wrap_content"
+        android:background="@drawable/xhdpi_normal_button"
+        android:padding="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Settings"
         android:textSize="36sp"
         android:textColor="@drawable/button_color"
-        android:layout_marginBottom="20dp"
-        android:background="@null"/>
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

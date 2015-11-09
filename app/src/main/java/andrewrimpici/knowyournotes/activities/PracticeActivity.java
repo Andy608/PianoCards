@@ -1,18 +1,33 @@
-package andrewrimpici.knowyournotes;
+package andrewrimpici.knowyournotes.activities;
 
+import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticeActivity extends AppCompatActivity {
+import andrewrimpici.knowyournotes.core.Color;
+import andrewrimpici.knowyournotes.util.EnumClefType;
+import andrewrimpici.knowyournotes.util.EnumLetterType;
+import andrewrimpici.knowyournotes.util.EnumOctaveType;
+import andrewrimpici.knowyournotes.core.NoteCard;
+import andrewrimpici.knowyournotes.core.NoteDeck;
+import andrewrimpici.knowyournotes.R;
 
+public class PracticeActivity extends AbstractActivity {
+
+    private RelativeLayout relativeLayoutWrapper;
+
+    private TextView textviewNoteStreakTitle;
     private TextView textviewNoteStreak;
     private TextView textviewNoteCardIndex;
 
@@ -22,6 +37,7 @@ public class PracticeActivity extends AppCompatActivity {
 
     private int noteStreak;
     private int correctButtonID;
+    private int totalCorrectNotes;
 
     private NoteDeck basicDeck;
 
@@ -30,8 +46,22 @@ public class PracticeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
 
+        relativeLayoutWrapper = (RelativeLayout)findViewById(R.id.relativelayout_practice_wrapper);
+
+        textviewNoteStreakTitle = (TextView)findViewById(R.id.textview_practice_title);
         textviewNoteStreak = (TextView)findViewById(R.id.textview_note_streak);
         textviewNoteCardIndex = (TextView)findViewById(R.id.textview_note_card_index);
+
+        Display d = getWindowManager().getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+
+        int width = p.x;
+
+        textviewNoteStreakTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.16f);
+        textviewNoteStreakTitle.setText("Note Streak");
+
+        textviewNoteStreak.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.14f);
 
         imageViewNoteCard = (ImageView)findViewById(R.id.imageview_note_card);
         init();
@@ -56,10 +86,7 @@ public class PracticeActivity extends AppCompatActivity {
         for (int octave = EnumOctaveType.TWO.ordinal(); octave <= EnumOctaveType.FOUR.ordinal(); octave++) {
             for (int letter = EnumLetterType.A.ordinal(); letter <= EnumLetterType.G.ordinal(); letter++) {
 
-                if (octave == EnumOctaveType.TWO.ordinal() && (letter == EnumLetterType.A.ordinal() || letter == EnumLetterType.B.ordinal())) {
-                    continue;
-                }
-                else if (octave == EnumOctaveType.FOUR.ordinal() && (letter > EnumLetterType.E.ordinal())) {
+                if (octave == EnumOctaveType.FOUR.ordinal() && (letter < EnumLetterType.C.ordinal() || letter > EnumLetterType.E.ordinal())) {
                     continue;
                 }
                 else {
@@ -97,6 +124,7 @@ public class PracticeActivity extends AppCompatActivity {
                     //Move onto the next card.
 
                     if (buttonID == correctButtonID) {
+                        totalCorrectNotes++;
                         noteStreak++;
                     }
                     else {
@@ -106,10 +134,12 @@ public class PracticeActivity extends AppCompatActivity {
                     //TODO: Go to the next card in the deck, and randomize the correctButtonID.
 
                     if (!basicDeck.nextCard()) {
-                        //TODO: GO TO A FINISH PRACTICE SCREEN INSTEAD OF BACK TO MAIN MENU!!
+                        Intent intent = new Intent(PracticeActivity.this, PracticeResultsActivity.class);
+                        intent.putExtra("notesCorrect", totalCorrectNotes);
+                        intent.putExtra("deckSize", basicDeck.getDeckSize());
+                        PracticeActivity.this.startActivity(intent);
                         finish();
                     }
-
                     updateGUI();
                 }
             });
@@ -157,5 +187,16 @@ public class PracticeActivity extends AppCompatActivity {
                 copy.remove(rand);
             }
         }
+    }
+
+    @Override
+    public void updateColor(final Color c) {
+
+        PracticeActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                relativeLayoutWrapper.setBackgroundColor(c.toInt());
+            }
+        });
     }
 }

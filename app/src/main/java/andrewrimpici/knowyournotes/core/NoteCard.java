@@ -1,4 +1,8 @@
-package andrewrimpici.knowyournotes;
+package andrewrimpici.knowyournotes.core;
+
+import andrewrimpici.knowyournotes.util.EnumClefType;
+import andrewrimpici.knowyournotes.util.EnumLetterType;
+import andrewrimpici.knowyournotes.util.EnumOctaveType;
 
 public class NoteCard {
 

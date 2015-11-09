@@ -1,4 +1,4 @@
-package andrewrimpici.knowyournotes;
+package andrewrimpici.knowyournotes.core;
 
 import android.util.Log;
 
@@ -37,11 +37,8 @@ public class NoteDeck {
     }
 
     public void addCard(NoteCard card) {
-        if (deck.contains(card)) return;
-        else {
-            deck.add(card);
-            shuffledDeck.add(card);
-        }
+        deck.add(card);
+        shuffledDeck.add(card);
     }
 
     public void removeCard(NoteCard card) {
