@@ -1,6 +1,8 @@
 package andrewrimpici.knowyournotes.core;
 
-public class BackgroundDisplayUpdater {
+public final class BackgroundDisplayUpdater {
+
+    //TODO: EVENTUALLY THIS CLASS WILL NOT BE STATIC AND YOU WILL BE ABLE TO PASS IN AN ARRAY OF CUSTOM COLORS FOR THE CIRCLE EFFECT OR ANOTHER EFFECT.
 
     private static final Color[] transitionColors = new Color[] {
             new Color(0xFD / 255f, 0x53 / 255, 0x08 / 255, 1.0f),
@@ -16,20 +18,14 @@ public class BackgroundDisplayUpdater {
             new Color(0xA7 / 255f, 0x19 / 255f, 0x4B / 255f, 1.0f)
     };
 
-    private int transitionTimeMilliseconds;
-    private float timeElapsed;
-    private float percentage;
-    private int currentColorIndex, nextColorIndex;
+    private static int transitionTimeMilliseconds = 5000;
+    private static float timeElapsed;
+    private static float percentage;
+    private static int currentColorIndex, nextColorIndex = 1;
 
-    private Color targetColor;
+    private static Color targetColor = new Color(transitionColors[0]);
 
-    public BackgroundDisplayUpdater(int colorTransitionMilliseconds) {
-        transitionTimeMilliseconds = colorTransitionMilliseconds;
-        nextColorIndex = currentColorIndex + 1;
-        targetColor = new Color(transitionColors[0]);
-    }
-
-    public void update(float deltaTime) {
+    public static void update(float deltaTime) {
         deltaTime *= 1000;
 
         timeElapsed = (timeElapsed + deltaTime);
@@ -47,7 +43,7 @@ public class BackgroundDisplayUpdater {
                         1.0f);
     }
 
-    public Color getTargetColor() {
+    public static Color getTargetColor() {
         return targetColor;
     }
 }

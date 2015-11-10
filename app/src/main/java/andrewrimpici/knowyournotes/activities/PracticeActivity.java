@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import andrewrimpici.knowyournotes.core.BackgroundDisplayUpdater;
 import andrewrimpici.knowyournotes.core.Color;
 import andrewrimpici.knowyournotes.util.EnumClefType;
 import andrewrimpici.knowyournotes.util.EnumLetterType;
@@ -27,7 +28,6 @@ public class PracticeActivity extends AbstractActivity {
 
     private RelativeLayout relativeLayoutWrapper;
 
-    private TextView textviewNoteStreakTitle;
     private TextView textviewNoteStreak;
     private TextView textviewNoteCardIndex;
 
@@ -41,6 +41,10 @@ public class PracticeActivity extends AbstractActivity {
 
     private NoteDeck basicDeck;
 
+    private boolean showAnswer;
+    private static final float SHOW_TIME = 1.5f;
+    private float showCounter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,20 +52,8 @@ public class PracticeActivity extends AbstractActivity {
 
         relativeLayoutWrapper = (RelativeLayout)findViewById(R.id.relativelayout_practice_wrapper);
 
-        textviewNoteStreakTitle = (TextView)findViewById(R.id.textview_practice_title);
         textviewNoteStreak = (TextView)findViewById(R.id.textview_note_streak);
         textviewNoteCardIndex = (TextView)findViewById(R.id.textview_note_card_index);
-
-        Display d = getWindowManager().getDefaultDisplay();
-        Point p = new Point();
-        d.getSize(p);
-
-        int width = p.x;
-
-        textviewNoteStreakTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.16f);
-        textviewNoteStreakTitle.setText("Note Streak");
-
-        textviewNoteStreak.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.14f);
 
         imageViewNoteCard = (ImageView)findViewById(R.id.imageview_note_card);
         init();
@@ -129,18 +121,14 @@ public class PracticeActivity extends AbstractActivity {
                     }
                     else {
                         noteStreak = 0;
+                        setButtonImage(buttonID, R.drawable.xhdpi_wrong_button);
                     }
+
+                    setButtonImage(correctButtonID, R.drawable.xhdpi_correct_button);
 
                     //TODO: Go to the next card in the deck, and randomize the correctButtonID.
 
-                    if (!basicDeck.nextCard()) {
-                        Intent intent = new Intent(PracticeActivity.this, PracticeResultsActivity.class);
-                        intent.putExtra("notesCorrect", totalCorrectNotes);
-                        intent.putExtra("deckSize", basicDeck.getDeckSize());
-                        PracticeActivity.this.startActivity(intent);
-                        finish();
-                    }
-                    updateGUI();
+                    showAnswer = true;
                 }
             });
         }
@@ -148,6 +136,11 @@ public class PracticeActivity extends AbstractActivity {
     }
 
     private void updateGUI() {
+
+        for (int i = 0; i < optionsButtons.length; i++) {
+            setButtonImage(i, R.drawable.xhdpi_normal_button);
+        }
+
         textviewNoteStreak.setText(Integer.toString(noteStreak));
         textviewNoteCardIndex.setText((basicDeck.getCurrentIndex() + 1) + "/" + basicDeck.getDeckSize());
         imageViewNoteCard.setImageResource(getResources().getIdentifier(basicDeck.getCurrentCard(true).getImageResourceID(), "drawable", getPackageName()));
@@ -190,12 +183,62 @@ public class PracticeActivity extends AbstractActivity {
     }
 
     @Override
+    public void updateActivity(float deltaTime) {
+        updateColor(BackgroundDisplayUpdater.getTargetColor());
+
+        if (showAnswer) {
+
+            for (int i = 0; i < optionsButtons.length; i++) {
+                optionsButtons[i].setClickable(false);
+            }
+
+            showCounter += deltaTime;
+
+            if (showCounter >= SHOW_TIME) {
+                showAnswer = false;
+
+                showCounter = 0;
+
+                if (!basicDeck.nextCard()) {
+                    Intent intent = new Intent(PracticeActivity.this, PracticeResultsActivity.class);
+                    intent.putExtra("notesCorrect", totalCorrectNotes);
+                    intent.putExtra("deckSize", basicDeck.getDeckSize());
+                    PracticeActivity.this.startActivity(intent);
+                    finish();
+                }
+
+                for (int i = 0; i < optionsButtons.length; i++) {
+                    optionsButtons[i].setClickable(true);
+                }
+
+                PracticeActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateGUI();
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
     public void updateColor(final Color c) {
 
         PracticeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 relativeLayoutWrapper.setBackgroundColor(c.toInt());
+            }
+        });
+    }
+
+    private void setButtonImage(final int buttonID, final int resID) {
+
+        PracticeActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                optionsButtons[buttonID].setBackgroundResource(resID);
+                optionsButtons[buttonID].setPadding(0, 0, 0, 0);
             }
         });
     }

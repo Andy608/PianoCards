@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import andrewrimpici.knowyournotes.core.BackgroundDisplayUpdater;
 import andrewrimpici.knowyournotes.core.Color;
 import andrewrimpici.knowyournotes.listener.PracticeButtonListener;
 import andrewrimpici.knowyournotes.R;
@@ -69,12 +70,16 @@ public class MainMenuActivity extends AbstractActivity {
     }
 
     @Override
+    public void updateActivity(float deltaTime) {
+        updateColor(BackgroundDisplayUpdater.getTargetColor());
+    }
+
+    @Override
     public void updateColor(final Color c) {
 
         MainMenuActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //Log.d("HELLO", "WAZZP: " + c.toString());
                 linearLayoutWrapper.setBackgroundColor(c.toInt());
             }
         });

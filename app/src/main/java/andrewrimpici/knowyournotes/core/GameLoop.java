@@ -3,6 +3,7 @@ package andrewrimpici.knowyournotes.core;
 import android.util.Log;
 
 import andrewrimpici.knowyournotes.activities.AbstractActivity;
+import andrewrimpici.knowyournotes.activities.PracticeActivity;
 
 public class GameLoop implements Runnable {
 
@@ -21,11 +22,8 @@ public class GameLoop implements Runnable {
     private static Thread gameThread;
     private boolean isRunning;
 
-    private BackgroundDisplayUpdater displayUpdater;
-
     public GameLoop(AppMain instance) {
         appInstance = instance;
-        displayUpdater = new BackgroundDisplayUpdater(5000);
     }
 
     public void createThread() {
@@ -95,11 +93,11 @@ public class GameLoop implements Runnable {
             ticks = 0;
         }
 
-        displayUpdater.update(deltaTime);
+        BackgroundDisplayUpdater.update(deltaTime);
 
         AbstractActivity activity = appInstance.getCurrentActivity();
         if (activity != null) {
-            activity.updateColor(displayUpdater.getTargetColor());
+            activity.updateActivity(deltaTime);
         }
     }
 }

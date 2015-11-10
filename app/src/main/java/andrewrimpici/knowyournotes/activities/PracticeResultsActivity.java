@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import andrewrimpici.knowyournotes.core.BackgroundDisplayUpdater;
 import andrewrimpici.knowyournotes.core.Color;
 import andrewrimpici.knowyournotes.listener.MenuButtonListener;
 import andrewrimpici.knowyournotes.listener.PracticeButtonListener;
@@ -48,6 +49,11 @@ public class PracticeResultsActivity extends AbstractActivity {
 
         textviewPercentage.setText(percentage+"%");
         textviewNumNotesCorrect.setText(notesCorrect+"/"+deckSize+" Notes Correct");
+    }
+
+    @Override
+    public void updateActivity(float deltaTime) {
+        updateColor(BackgroundDisplayUpdater.getTargetColor());
     }
 
     @Override
