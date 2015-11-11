@@ -10,7 +10,7 @@ import andrewrimpici.knowyournotes.core.Color;
 
 public abstract class AbstractActivity extends Activity {
 
-    private AppMain main;
+    protected AppMain main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

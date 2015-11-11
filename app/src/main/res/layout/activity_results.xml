@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearlayout_practiceresults_wrapper"
+    android:id="@+id/linearlayout_results_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,21 +20,22 @@
         android:layout_marginBottom="15dp"/>
 
     <TextView
-        android:id="@+id/textview_practice_results_percentage"
+        android:id="@+id/textview_results_percentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="72sp"
+        android:gravity="center"
         android:layout_marginBottom="10dp" />
 
     <TextView
-        android:id="@+id/textview_practice_results_correct_notes"
+        android:id="@+id/textview_results_correct_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
         android:layout_marginBottom="20dp"/>
 
     <Button
-        android:id="@+id/button_practice_results_to_quiz_screen"
+        android:id="@+id/button_results_to_quiz_screen"
         android:background="@drawable/xhdpi_normal_button"
         android:padding="0dp"
         android:layout_width="fill_parent"
@@ -45,18 +46,18 @@
         android:textColor="@drawable/button_color" />
 
     <Button
-        android:id="@+id/button_practice_results_to_practice_screen"
+        android:id="@+id/button_results_to_practice_screen"
         android:background="@drawable/xhdpi_normal_button"
         android:padding="0dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Continue Practicing"
+        android:text="More Practice"
         android:textSize="36sp"
         android:textColor="@drawable/button_color" />
 
     <Button
-        android:id="@+id/button_practice_results_to_menu_screen"
+        android:id="@+id/button_results_to_menu_screen"
         android:background="@drawable/xhdpi_normal_button"
         android:padding="0dp"
         android:layout_width="fill_parent"

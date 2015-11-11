@@ -1,8 +1,9 @@
 package andrewrimpici.knowyournotes.activities;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -10,10 +11,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import andrewrimpici.knowyournotes.R;
 import andrewrimpici.knowyournotes.core.BackgroundDisplayUpdater;
 import andrewrimpici.knowyournotes.core.Color;
-import andrewrimpici.knowyournotes.listener.PracticeButtonListener;
-import andrewrimpici.knowyournotes.R;
 
 public class MainMenuActivity extends AbstractActivity {
 
@@ -24,6 +24,8 @@ public class MainMenuActivity extends AbstractActivity {
     private TextView textviewTitle;
 
     private LinearLayout linearLayoutWrapper;
+
+    private long lastClickTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class MainMenuActivity extends AbstractActivity {
 
         int width = p.x;
 
-        textviewTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.16f);
+        textviewTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, width * 0.11f);
         textviewTitle.setText(R.string.app_name);
 
         buttonPractice = (Button) findViewById(R.id.button_main_menu_to_practice_screen);
@@ -51,15 +53,30 @@ public class MainMenuActivity extends AbstractActivity {
 
     private void initListeners() {
 
-        buttonPractice.setOnClickListener(new PracticeButtonListener(false, this));
+        buttonPractice.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000) return;
+                lastClickTime = SystemClock.elapsedRealtime();
+
+                Intent intent = new Intent(v.getContext(), PracticeActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         buttonQuiz.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //Send to new screen
+                if (SystemClock.elapsedRealtime() - lastClickTime < 1000) return;
+                lastClickTime = SystemClock.elapsedRealtime();
+
+                Intent intent = new Intent(v.getContext(), QuizActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
+
         buttonSettings.setOnClickListener(new View.OnClickListener() {
 
             @Override

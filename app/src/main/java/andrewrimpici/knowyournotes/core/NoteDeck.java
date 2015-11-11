@@ -69,6 +69,7 @@ public class NoteDeck {
             shuffledDeck.add(i, copy.get(rand));
             copy.remove(rand);
         }
+        currentIndex = 0;
     }
 
     public List<NoteCard> getShuffledDeck() {

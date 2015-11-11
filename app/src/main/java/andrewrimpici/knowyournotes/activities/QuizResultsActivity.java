@@ -8,12 +8,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import andrewrimpici.knowyournotes.R;
 import andrewrimpici.knowyournotes.core.BackgroundDisplayUpdater;
 import andrewrimpici.knowyournotes.core.Color;
-import andrewrimpici.knowyournotes.R;
 
-public class PracticeResultsActivity extends AbstractActivity {
-
+public class QuizResultsActivity extends AbstractActivity {
     private LinearLayout linearLayoutWrapper;
 
     private TextView textviewPercentage;
@@ -83,7 +82,19 @@ public class PracticeResultsActivity extends AbstractActivity {
         int percentage = (int)((notesCorrect / (float)deckSize) * 100);
 
         textviewPercentage.setText(percentage+"%");
-        textviewNumNotesCorrect.setText(notesCorrect+"/"+deckSize+" Notes Correct");
+
+        if (percentage >= 95) {
+            textviewNumNotesCorrect.setText("Congratulations! " + notesCorrect + "/" + deckSize + " Notes Correct!");
+        }
+        else if (percentage > 80) {
+            textviewNumNotesCorrect.setText("Good Job! " + notesCorrect + "/" + deckSize + " Notes Correct.");
+        }
+        else if (percentage < 30) {
+            textviewNumNotesCorrect.setText("Were you trying? " +notesCorrect+"/"+deckSize+" Notes Correct!");
+        }
+        else {
+            textviewNumNotesCorrect.setText(notesCorrect+"/"+deckSize+" Notes Correct");
+        }
     }
 
     @Override
@@ -94,7 +105,7 @@ public class PracticeResultsActivity extends AbstractActivity {
     @Override
     public void updateColor(final Color c) {
 
-        PracticeResultsActivity.this.runOnUiThread(new Runnable() {
+        QuizResultsActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 linearLayoutWrapper.setBackgroundColor(c.toInt());

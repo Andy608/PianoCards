@@ -3,7 +3,6 @@ package andrewrimpici.knowyournotes.core;
 import android.util.Log;
 
 import andrewrimpici.knowyournotes.activities.AbstractActivity;
-import andrewrimpici.knowyournotes.activities.PracticeActivity;
 
 public class GameLoop implements Runnable {
 
